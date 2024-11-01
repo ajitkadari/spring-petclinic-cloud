@@ -11,14 +11,17 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.6.3</version>
+        <version>3.3.5</version>
         <relativePath/>
     </parent>
 
     <properties>
+    	<java.version>17</java.version>
         <spring-boot.build-image.imageName>${REPOSITORY_PREFIX}/spring-petclinic-cloud-discovery-service</spring-boot.build-image.imageName>
-        <spring-cloud.version>2021.0.0</spring-cloud.version>
-        <spring-cloud-services.version>3.3.0</spring-cloud-services.version>
+        <spring-cloud.version>2023.0.3</spring-cloud.version>
+        <spring-cloud-services.version>4.1.5</spring-cloud-services.version>
+
+        <jaxb-api.version>2.3.1</jaxb-api.version>
     </properties>
 
     <dependencies>
@@ -56,10 +59,10 @@
         </dependency>
 
         <!-- JAXB is required since Java 9 -->
-        <dependency>
-            <groupId>org.glassfish.jaxb</groupId>
-            <artifactId>jaxb-runtime</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+		</dependency>
     </dependencies>
     <dependencyManagement>
         <dependencies>
@@ -84,6 +87,11 @@
                 <version>${assertj.version}</version>
                 <scope>test</scope>
             </dependency>
+			<dependency>
+				<groupId>javax.xml.bind</groupId>
+				<artifactId>jaxb-api</artifactId>
+				<version>${jaxb-api.version}</version>
+			</dependency>
         </dependencies>
     </dependencyManagement>
     <build>
@@ -108,8 +116,8 @@
                             <additionalProperties>
                                 <encoding.source>${project.build.sourceEncoding}</encoding.source>
                                 <encoding.reporting>${project.reporting.outputEncoding}</encoding.reporting>
-                                <java.source>${maven.compiler.source}</java.source>
-                                <java.target>${maven.compiler.target}</java.target>
+                                <java.source>${java.version}</java.source>
+                                <java.target>${java.version}</java.target>
                             </additionalProperties>
                         </configuration>
                     </execution>

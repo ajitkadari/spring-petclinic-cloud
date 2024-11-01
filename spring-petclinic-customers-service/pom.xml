@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.6.3</version>
+		<version>3.3.5</version>
 		<relativePath/>
 	</parent>
 
@@ -18,17 +18,25 @@
 
 
 	<properties>
-		<java.version>11</java.version>
-		<assertj.version>3.11.1</assertj.version>
+		<java.version>17</java.version>
+		<assertj.version>3.26.3</assertj.version>
 
-		<spring-boot.version>2.6.3</spring-boot.version>
-		<spring-cloud.version>2021.0.0</spring-cloud.version>
-        <spring-cloud-services.version>3.3.0</spring-cloud-services.version>
-        <wavefront.version>2.2.2</wavefront.version>
+		<spring-boot.version>3.3.5</spring-boot.version>
+		<spring-cloud.version>2023.0.3</spring-cloud.version>
+        <spring-cloud-services.version>4.1.5</spring-cloud-services.version>
+		<spring-cloud-starter-sleuth.version>3.1.11</spring-cloud-starter-sleuth.version>
 
-        <maven-surefire-plugin.version>2.22.0</maven-surefire-plugin.version>
+        <maven-surefire-plugin.version>3.5.1</maven-surefire-plugin.version>
         <spring-boot.build-image.imageName>${REPOSITORY_PREFIX}/spring-petclinic-cloud-customers-service</spring-boot.build-image.imageName>
-    </properties>
+    
+		<jolokia-core.version>1.7.2</jolokia-core.version>
+		<mysql-connector-java.version>8.0.33</mysql-connector-java.version>
+		<javax.persistence-api.version>2.2</javax.persistence-api.version>
+		<validation-api.version>2.0.1.Final</validation-api.version>
+
+		<spring-security-ldap.version>6.3.4</spring-security-ldap.version>
+		<spring-boot-starter-data-ldap.version>3.3.5</spring-boot-starter-data-ldap.version>
+	</properties>
 
 	<dependencies>
 
@@ -36,10 +44,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-validation</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.wavefront</groupId>
-			<artifactId>wavefront-spring-boot-starter</artifactId>
 		</dependency>
 
 		<dependency>
@@ -68,6 +72,17 @@
 			<artifactId>spring-boot-devtools</artifactId>
 			<optional>true</optional>
 		</dependency>
+		
+		<!-- Spring Security -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-ldap</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-ldap</artifactId>
+		</dependency>
 
 		<!-- Spring Cloud -->
         <dependency>
@@ -88,6 +103,14 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.persistence</groupId>
+			<artifactId>javax.persistence-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.hsqldb</groupId>
@@ -136,14 +159,6 @@
 			</dependency>
 
 			<dependency>
-				<groupId>com.wavefront</groupId>
-				<artifactId>wavefront-spring-boot-bom</artifactId>
-				<version>${wavefront.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-
-			<dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-dependencies</artifactId>
 				<version>${spring-cloud.version}</version>
@@ -151,10 +166,46 @@
 				<scope>import</scope>
 			</dependency>
 			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-starter-sleuth</artifactId>
+				<version>${spring-cloud-starter-sleuth.version}</version>				
+			</dependency>
+			<dependency>
 				<groupId>org.assertj</groupId>
 				<artifactId>assertj-core</artifactId>
 				<version>${assertj.version}</version>
 				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.jolokia</groupId>
+				<artifactId>jolokia-core</artifactId>
+				<version>${jolokia-core.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>mysql</groupId>
+				<artifactId>mysql-connector-java</artifactId>
+				<version>${mysql-connector-java.version}</version>
+				<scope>runtime</scope>
+			</dependency>
+			<dependency>
+				<groupId>javax.persistence</groupId>
+				<artifactId>javax.persistence-api</artifactId>
+				<version>${javax.persistence-api.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.validation</groupId>
+				<artifactId>validation-api</artifactId>
+				<version>${validation-api.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-ldap</artifactId>
+				<version>${spring-security-ldap.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-data-ldap</artifactId>
+				<version>${spring-boot-starter-data-ldap.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -262,8 +313,8 @@
 							<additionalProperties>
 								<encoding.source>${project.build.sourceEncoding}</encoding.source>
 								<encoding.reporting>${project.reporting.outputEncoding}</encoding.reporting>
-								<java.source>${maven.compiler.source}</java.source>
-								<java.target>${maven.compiler.target}</java.target>
+								<java.source>${java.version}</java.source>
+								<java.target>${java.version}</java.target>
 							</additionalProperties>
 						</configuration>
 					</execution>

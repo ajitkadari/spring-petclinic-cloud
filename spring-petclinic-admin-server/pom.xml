@@ -12,13 +12,19 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.6.3</version>
+        <version>3.3.5</version>
         <relativePath/>
     </parent>
     <properties>
-        <spring-boot-admin.version>2.5.5</spring-boot-admin.version>
-        <spring-cloud.version>2021.0.0</spring-cloud.version>
-        <spring-cloud-services.version>3.3.0</spring-cloud-services.version>
+        <java.version>17</java.version>
+        <spring-boot-admin.version>3.3.4</spring-boot-admin.version>
+        <spring-cloud.version>2023.0.3</spring-cloud.version>
+        <spring-cloud-services.version>4.1.5</spring-cloud-services.version>
+
+        <spring-boot-admin-starter-server.version>3.3.4</spring-boot-admin-starter-server.version>
+        <spring-boot-admin-server-ui.version>3.3.4</spring-boot-admin-server-ui.version>
+
+        <jolokia-core.version>1.7.2</jolokia-core.version>
 
         <spring-boot.build-image.imageName>${REPOSITORY_PREFIX}/spring-petclinic-cloud-admin-server</spring-boot.build-image.imageName>
     </properties>
@@ -42,12 +48,10 @@
         <dependency>
             <groupId>de.codecentric</groupId>
             <artifactId>spring-boot-admin-starter-server</artifactId>
-            <version>${spring-boot-admin.version}</version>
         </dependency>
         <dependency>
             <groupId>de.codecentric</groupId>
             <artifactId>spring-boot-admin-server-ui</artifactId>
-            <version>${spring-boot-admin.version}</version>
         </dependency>
 
         <!-- Third-party librairies -->
@@ -66,7 +70,6 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
@@ -75,6 +78,21 @@
                 <scope>import</scope>
             </dependency>
 
+            <dependency>
+                <groupId>de.codecentric</groupId>
+                <artifactId>spring-boot-admin-starter-server</artifactId>
+                <version>${spring-boot-admin-starter-server.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>de.codecentric</groupId>
+                <artifactId>spring-boot-admin-server-ui</artifactId>
+                <version>${spring-boot-admin-server-ui.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jolokia</groupId>
+                <artifactId>jolokia-core</artifactId>
+                <version>${jolokia-core.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <build>
@@ -99,8 +117,8 @@
                             <additionalProperties>
                                 <encoding.source>${project.build.sourceEncoding}</encoding.source>
                                 <encoding.reporting>${project.reporting.outputEncoding}</encoding.reporting>
-                                <java.source>${maven.compiler.source}</java.source>
-                                <java.target>${maven.compiler.target}</java.target>
+                                <java.source>${java.version}</java.source>
+                                <java.target>${java.version}</java.target>
                             </additionalProperties>
                         </configuration>
                     </execution>

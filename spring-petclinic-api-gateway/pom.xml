@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.6.3</version>
+		<version>3.3.5</version>
 		<relativePath/>
 	</parent>
 
@@ -17,16 +17,17 @@
 	<description>Spring PetClinic API Gateway</description>
 
 	<properties>
-		<java.version>11</java.version>
-		<assertj.version>3.11.1</assertj.version>
+		<java.version>17</java.version>
+		<assertj.version>3.26.3</assertj.version>
 
-		<spring-boot.version>2.6.3</spring-boot.version>
-		<spring-cloud.version>2021.0.0</spring-cloud.version>
-        <spring-cloud-services.version>3.3.0</spring-cloud-services.version>
-		<wavefront.version>2.2.2</wavefront.version>
+		<spring-boot.version>3.3.5</spring-boot.version>
+		<spring-cloud.version>2023.0.3</spring-cloud.version>
+        <spring-cloud-services.version>4.1.5</spring-cloud-services.version>
+		<spring-cloud-starter-sleuth.version>3.1.11</spring-cloud-starter-sleuth.version>
+		<maven-surefire-plugin.version>3.5.1</maven-surefire-plugin.version>
+		<jolokia-core.version>1.7.2</jolokia-core.version>
 
-		<maven-surefire-plugin.version>2.22.0</maven-surefire-plugin.version>
-
+		<webjars-locator-core.version>0.59</webjars-locator-core.version>
 		<webjars-bootstrap.version>3.4.0</webjars-bootstrap.version>
 		<webjars-jquery-ui.version>1.11.4</webjars-jquery-ui.version>
 		<webjars-jquery.version>3.1.1-1</webjars-jquery.version>
@@ -41,11 +42,6 @@
 	<dependencies>
 
 		<!-- Spring Boot -->
-		<dependency>
-			<groupId>com.wavefront</groupId>
-			<artifactId>wavefront-spring-boot-starter</artifactId>
-		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
@@ -119,22 +115,18 @@
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>angularjs</artifactId>
-			<version>${webjars-angular.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>jquery</artifactId>
-			<version>${webjars-jquery.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>bootstrap</artifactId>
-			<version>${webjars-bootstrap.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>angular-ui-router</artifactId>
-			<version>${webjars-angular-ui-router.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.webjars</groupId>
@@ -168,15 +160,6 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
-
-			<dependency>
-				<groupId>com.wavefront</groupId>
-				<artifactId>wavefront-spring-boot-bom</artifactId>
-				<version>${wavefront.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-dependencies</artifactId>
@@ -185,12 +168,48 @@
 				<scope>import</scope>
 			</dependency>
 			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-starter-sleuth</artifactId>
+				<version>${spring-cloud-starter-sleuth.version}</version>
+			</dependency>
+			<dependency>
 				<groupId>org.assertj</groupId>
 				<artifactId>assertj-core</artifactId>
 				<version>${assertj.version}</version>
 				<scope>test</scope>
 			</dependency>
+			<dependency>
+				<groupId>org.jolokia</groupId>
+				<artifactId>jolokia-core</artifactId>
+				<version>${jolokia-core.version}</version>
+			</dependency>
 
+			<!-- Webjars -->
+			<dependency>
+				<groupId>org.webjars</groupId>
+				<artifactId>angularjs</artifactId>
+				<version>${webjars-angular.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.webjars</groupId>
+				<artifactId>jquery</artifactId>
+				<version>${webjars-jquery.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.webjars</groupId>
+				<artifactId>bootstrap</artifactId>
+				<version>${webjars-bootstrap.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.webjars</groupId>
+				<artifactId>angular-ui-router</artifactId>
+				<version>${webjars-angular-ui-router.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.webjars</groupId>
+				<artifactId>webjars-locator-core</artifactId>
+				<version>${webjars-locator-core.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
@@ -250,8 +269,8 @@
 							<additionalProperties>
 								<encoding.source>${project.build.sourceEncoding}</encoding.source>
 								<encoding.reporting>${project.reporting.outputEncoding}</encoding.reporting>
-								<java.source>${maven.compiler.source}</java.source>
-								<java.target>${maven.compiler.target}</java.target>
+								<java.source>${java.version}</java.source>
+								<java.target>${java.version}</java.target>
 							</additionalProperties>
 						</configuration>
 					</execution>

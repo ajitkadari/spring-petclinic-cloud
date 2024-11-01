@@ -9,7 +9,7 @@ applications:
     routes:
       - route: customers-service.apps.internal
     env:
-      JBP_CONFIG_OPEN_JDK_JRE: '{ jre: { version: 11.+ } }'
+      JBP_CONFIG_OPEN_JDK_JRE: '{ jre: { version: 17.+ } }'
       JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{ enabled: false }'
       SPRING_PROFILES_ACTIVE: cloud
     services:
@@ -27,7 +27,7 @@ applications:
     routes:
       - route: vets-service.apps.internal
     env:
-      JBP_CONFIG_OPEN_JDK_JRE: '{ jre: { version: 11.+ } }'
+      JBP_CONFIG_OPEN_JDK_JRE: '{ jre: { version: 17.+ } }'
       JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{ enabled: false }'
       SPRING_PROFILES_ACTIVE: cloud
     services:
@@ -45,7 +45,7 @@ applications:
     routes:
       - route: visits-service.apps.internal
     env:
-      JBP_CONFIG_OPEN_JDK_JRE: '{ jre: { version: 11.+ } }'
+      JBP_CONFIG_OPEN_JDK_JRE: '{ jre: { version: 17.+ } }'
       JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{ enabled: false }'
       SPRING_PROFILES_ACTIVE: cloud
     services:
@@ -61,7 +61,7 @@ applications:
     health-check-type: http
     health-check-http-endpoint: /actuator/health
     env:
-      JBP_CONFIG_OPEN_JDK_JRE: '{ jre: { version: 11.+ } }'
+      JBP_CONFIG_OPEN_JDK_JRE: '{ jre: { version: 17.+ } }'
       JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{ enabled: false }'
       SPRING_PROFILES_ACTIVE: cloud
     services:

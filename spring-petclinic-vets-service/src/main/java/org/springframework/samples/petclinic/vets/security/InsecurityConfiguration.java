@@ -2,30 +2,31 @@ package org.springframework.samples.petclinic.vets.security;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.ldap.LdapBindAuthenticationManagerFactory;
+import org.springframework.security.config.ldap.EmbeddedLdapServerContextSourceFactoryBean;
+import org.springframework.security.ldap.userdetails.PersonContextMapper;
+import org.springframework.ldap.core.support.BaseLdapPathContextSource;
+import org.springframework.security.authentication.AuthenticationManager;
 
 @Configuration
-public class InsecurityConfiguration extends WebSecurityConfigurerAdapter {
-
-    private final static Logger log = LoggerFactory.getLogger(InsecurityConfiguration.class);
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        log.warn("configuring insecure HttpSecurity");
-        http.
-    	authorizeRequests().anyRequest().permitAll()
-    	.and()
-    	.httpBasic().disable()
-    	.csrf().disable();
+public class InsecurityConfiguration {
+    @Bean
+    public EmbeddedLdapServerContextSourceFactoryBean contextSourceFactoryBean() {
+        EmbeddedLdapServerContextSourceFactoryBean contextSourceFactoryBean =
+            EmbeddedLdapServerContextSourceFactoryBean.fromEmbeddedLdapServer();
+        contextSourceFactoryBean.setPort(0);
+        return contextSourceFactoryBean;
     }
 
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        log.warn("configuring insecure WebSecurity");
-        web.ignoring().antMatchers("/**");
+    @Bean
+    AuthenticationManager ldapAuthenticationManager(
+            BaseLdapPathContextSource contextSource) {
+        LdapBindAuthenticationManagerFactory factory = 
+            new LdapBindAuthenticationManagerFactory(contextSource);
+        factory.setUserDnPatterns("uid={0},ou=people");
+        factory.setUserDetailsContextMapper(new PersonContextMapper());
+        return factory.createAuthenticationManager();
     }
-
 }
